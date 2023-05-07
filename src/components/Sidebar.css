@@ -26,7 +26,7 @@
   /* or 26px */
 
   letter-spacing: 0.02em;
-
+  cursor: pointer;
   color: #ffffff;
 }
 .create-btn span {
@@ -34,12 +34,11 @@
   font-weight: 900;
 }
 .title-container {
-  position: absolute;
+  position: relative;
   width: 22vw;
   height: 10vh;
-  top: 25%;
+  margin-bottom: 15px;
   left: 3%;
-  background-color: #f7ecdc;
   border-bottom-left-radius: 20px;
   border-top-left-radius: 20px;
 }
@@ -70,6 +69,17 @@ top: 309.18px; */
   font-size: 0.9em;
   line-height: 24px;
   letter-spacing: 0.02em;
-
+  position: relative;
   color: #000000;
+}
+
+.group-box {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 3%;
+  top: 25%;
+  width: 22vw;
+  height: 70vh;
+  overflow: auto;
 }

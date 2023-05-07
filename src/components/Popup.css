@@ -59,7 +59,7 @@
 }
 .icon-colors {
   position: absolute;
-  margin: 22% 5%;
+  margin: 21% 5%;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 600;
@@ -82,13 +82,25 @@
   font-family: "Roboto";
   background: #000000;
   border-radius: 11px;
+  cursor: pointer;
 }
 .colors {
+  cursor: pointer;
   background-color: #b38bfa;
   border-radius: 50%;
   width: 25px;
   height: 25px;
   left: 32%;
   top: 63%;
+  position: relative;
+}
+.color-box {
   position: absolute;
+  top: 45%;
+  left: 15%;
+  display: flex;
+  width: 20vw;
+  height: 40px;
+
+  justify-content: space-around;
 }

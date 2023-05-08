@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Notes.css";
 import NoteImg from "./../assets/notepad.png";
 import Send from "./../assets/send.png";
+
 const Notes = () => {
+  const [userNotes, setUserNotes] = useState([]);
+  const [message, setMessage] = useState("");
+
+  const textChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const sendMessage = (e) => {
+    setUserNotes((prevNotes) => [...prevNotes, message]);
+    setMessage("");
+  };
+
   return (
     <div className="notes-container">
       {/* <img src={NoteImg} alt="notes-img" className="notes-img" />
@@ -17,29 +30,28 @@ const Notes = () => {
         <div className="notes-title2">Cuvette notes</div>
       </div>
       <div className="notes-header">
-        <div className="notes-box">
-          <div className="timestamp">
-            {" "}
-            10:30 Am <br />
-            <br />
-            <span>9 March 2023</span>
+        {userNotes.map((note, index) => (
+          <div key={index} className="notes-box">
+            <div className="timestamp">
+              {" "}
+              10:30 Am <br />
+              <br />
+              <span>9 March 2023</span>
+            </div>
+            <div className="notes-item">{note}</div>
           </div>
-          <div className="notes-item">
-            It's not only writers who can benefit from this free online tool. If
-            you're a programmer who's working on a project where blocks of text
-            are needed, this tool can be a great way to get that. It's a good
-            way to test your programming and that the tool being created is
-            working well.
-          </div>
-        </div>
+        ))}
       </div>
       <div className="typing-footer">
         <textarea
           type="text"
           className="user-notes"
           placeholder="Enter your text here..........."
+          onChange={textChange}
+          value={message}
+          name="userNotes"
         />
-        <img src={Send} alt="send-icon" />
+        <img src={Send} alt="send-icon" onClick={sendMessage} />
       </div>
     </div>
   );

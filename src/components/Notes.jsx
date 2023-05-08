@@ -3,7 +3,7 @@ import "./Notes.css";
 import NoteImg from "./../assets/notepad.png";
 import Send from "./../assets/send.png";
 
-const Notes = () => {
+const Notes = ({ selectedGroup }) => {
   const [userNotes, setUserNotes] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -11,7 +11,7 @@ const Notes = () => {
     setMessage(e.target.value);
   };
 
-  const sendMessage = (e) => {
+  const sendMessage = () => {
     setUserNotes((prevNotes) => [...prevNotes, message]);
     setMessage("");
   };
@@ -26,8 +26,17 @@ const Notes = () => {
       </div>
       <div className="secure">&#128274; end-to-end encrypted</div> */}
       <div className="navbar">
-        <div className="notes-icon2">du</div>
-        <div className="notes-title2">Cuvette notes</div>
+        <div
+          className="notes-icon2"
+          style={{ backgroundColor: selectedGroup.color }}
+        >
+          {selectedGroup.name
+            .split(" ")
+            .slice(0, 2)
+            .map((word) => word.charAt(0))
+            .join("")}
+        </div>
+        <div className="notes-title2">{selectedGroup.name}</div>
       </div>
       <div className="notes-header">
         {userNotes.map((note, index) => (

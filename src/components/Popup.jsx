@@ -1,25 +1,7 @@
 import React, { useState } from "react";
 import "./Popup.css";
 
-const colors = [
-  "#FF79F2",
-  "#43E6FC",
-  "#F19576",
-  "#0047FF",
-  "#6691FF",
-  "#B38BFA",
-  "#17C6AF",
-];
-const Popup = (props) => {
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("");
-  const createBtn = () => {
-    props.cancelPopup({ name, color });
-  };
-  const handleChange = (e) => {
-    setName(e.target.value);
-  };
-  console.log(name);
+const Popup = ({ name, color, colors, createBtn, handleChange, setColor }) => {
   return (
     <div className="popup-container">
       <div className="popup-box">

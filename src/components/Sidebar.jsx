@@ -1,29 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Sidebar.css";
-import Popup from "./Popup";
-const Sidebar = () => {
-  const [popup, setPopup] = useState(false);
-  const [groupValues, setGroupValues] = useState([]);
-  const CreateBtn = () => {
-    setPopup(true);
-  };
 
-  const cancelPopup = (userinputs) => {
-    setPopup(false);
-    setGroupValues([...groupValues, userinputs]);
+const Sidebar = ({
+  CreateGroup,
+  groupValues,
+  setSelectedGroup,
+  selectedGroup,
+}) => {
+  const handleGroupClick = (group) => {
+    setSelectedGroup(group);
   };
-
   return (
     <>
       <div className="sidebar-container">
         <h1 className="page-title">Pocket Notes</h1>
-        <button className="create-btn" onClick={CreateBtn}>
+        <button className="create-btn" onClick={CreateGroup}>
           + &nbsp; Create Notes group
         </button>
         <div className="group-box">
-          {groupValues.map((item) => {
+          {groupValues.map((item, i) => {
             return (
-              <div className="title-container">
+              <div
+                className="title-container"
+                key={i}
+                style={{
+                  backgroundColor: `${
+                    selectedGroup === item ? "#F7ECDC" : "white"
+                  }`,
+                }}
+                onClick={() => handleGroupClick(item)}
+              >
                 <div className="notes-icon" style={{ background: item.color }}>
                   {item.name
                     .split(" ")
@@ -37,7 +43,6 @@ const Sidebar = () => {
           })}
         </div>
       </div>
-      {popup && <Popup cancelPopup={cancelPopup} />}
     </>
   );
 };

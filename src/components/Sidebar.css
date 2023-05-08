@@ -37,8 +37,7 @@
   position: relative;
   width: 22vw;
   height: 10vh;
-  margin-bottom: 15px;
-  left: 3%;
+  margin-bottom: 20px;
   border-bottom-left-radius: 20px;
   border-top-left-radius: 20px;
 }
@@ -78,8 +77,8 @@ top: 309.18px; */
   flex-direction: column;
   position: absolute;
   left: 3%;
-  top: 25%;
+  top: 24%;
+
   width: 22vw;
   height: 70vh;
-  overflow: auto;
 }

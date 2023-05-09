@@ -21,6 +21,7 @@ function App() {
   const [popup, setPopup] = useState(false);
   const [groupValues, setGroupValues] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
     const savedGroupValues = JSON.parse(localStorage.getItem("groupValues"));
@@ -28,11 +29,26 @@ function App() {
       setGroupValues(savedGroupValues);
     }
   }, []);
+  console.log(isMobileView);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.screen.width <= 768) {
+        setIsMobileView(true);
+      } else {
+        setIsMobileView(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const CreateGroup = () => {
     setPopup(true);
   };
-  console.log(selectedGroup);
+
   const cancelPopup = (userinputs) => {
     setPopup(false);
     setGroupValues([...groupValues, userinputs]);
@@ -54,26 +70,45 @@ function App() {
   const handleColorChange = (selectedColor) => {
     setColor(selectedColor);
   };
-  console.log(name);
 
   return (
     <BrowserRouter>
       <div style={{ display: "flex" }}>
-        <Sidebar
-          groupValues={groupValues}
-          CreateGroup={CreateGroup}
-          setSelectedGroup={setSelectedGroup}
-          selectedGroup={selectedGroup}
-        />
-
-        <Routes>
-          <Route path="/" element={<Banner />} />
-          <Route
-            path="/notes"
-            element={<Notes selectedGroup={selectedGroup} />}
-          />
-        </Routes>
-
+        {isMobileView ? (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Sidebar
+                  groupValues={groupValues}
+                  CreateGroup={CreateGroup}
+                  setSelectedGroup={setSelectedGroup}
+                  selectedGroup={selectedGroup}
+                />
+              }
+            />
+            <Route
+              path="/notes"
+              element={<Notes selectedGroup={selectedGroup} />}
+            />
+          </Routes>
+        ) : (
+          <>
+            <Sidebar
+              groupValues={groupValues}
+              CreateGroup={CreateGroup}
+              setSelectedGroup={setSelectedGroup}
+              selectedGroup={selectedGroup}
+            />
+            <Routes>
+              <Route path="/" element={<Banner />} />
+              <Route
+                path="/notes"
+                element={<Notes selectedGroup={selectedGroup} />}
+              />
+            </Routes>
+          </>
+        )}
         {popup && (
           <Popup
             handleChange={handleChange}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Sidebar.css";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +14,11 @@ const Sidebar = ({
 
     navigate("/notes");
   };
+  useEffect(() => {
+    if (!selectedGroup) {
+      navigate("/");
+    }
+  }, [selectedGroup, navigate]);
   return (
     <>
       <div className="sidebar-container">

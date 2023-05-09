@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./Notes.css";
 
 import Send from "./../assets/send.png";
+import { useNavigate } from "react-router-dom";
 
 const Notes = ({ selectedGroup }) => {
   const [userNotes, setUserNotes] = useState([]);
   const [message, setMessage] = useState("");
-
+  const Navigate = useNavigate();
   useEffect(() => {
     const notes = localStorage.getItem(selectedGroup?.name);
     setUserNotes(notes ? JSON.parse(notes) : []);
@@ -31,10 +32,15 @@ const Notes = ({ selectedGroup }) => {
       localStorage.setItem(selectedGroup.name, JSON.stringify(userNotes));
     }
   }, [selectedGroup, userNotes]);
-
+  const backBtn = () => {
+    Navigate("/");
+  };
   return (
     <div className="notes-container">
       <div className="navbar">
+        <div className="back-btn" onClick={backBtn}>
+          &#8592;
+        </div>
         <div
           className="notes-icon2"
           style={{

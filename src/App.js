@@ -29,7 +29,7 @@ function App() {
       setGroupValues(savedGroupValues);
     }
   }, []);
-  console.log(isMobileView);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.screen.width <= 768) {

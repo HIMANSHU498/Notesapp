@@ -1,5 +1,6 @@
 import React from "react";
 import "./Sidebar.css";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({
   CreateGroup,
@@ -7,8 +8,11 @@ const Sidebar = ({
   setSelectedGroup,
   selectedGroup,
 }) => {
+  const navigate = useNavigate();
   const handleGroupClick = (group) => {
     setSelectedGroup(group);
+
+    navigate("/notes");
   };
   return (
     <>

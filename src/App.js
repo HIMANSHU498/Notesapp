@@ -2,7 +2,9 @@ import "./App.css";
 import Notes from "./components/Notes";
 import Sidebar from "./components/Sidebar";
 import Popup from "./components/Popup";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Banner from "./components/Banner";
 
 const colors = [
   "#FF79F2",
@@ -13,18 +15,31 @@ const colors = [
   "#B38BFA",
   "#17C6AF",
 ];
+
 function App() {
   //sidebar
   const [popup, setPopup] = useState(false);
   const [groupValues, setGroupValues] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
+
+  useEffect(() => {
+    const savedGroupValues = JSON.parse(localStorage.getItem("groupValues"));
+    if (savedGroupValues) {
+      setGroupValues(savedGroupValues);
+    }
+  }, []);
+
   const CreateGroup = () => {
     setPopup(true);
   };
-
+  console.log(selectedGroup);
   const cancelPopup = (userinputs) => {
     setPopup(false);
     setGroupValues([...groupValues, userinputs]);
+    localStorage.setItem(
+      "groupValues",
+      JSON.stringify([...groupValues, userinputs])
+    );
   };
 
   //popup
@@ -40,26 +55,37 @@ function App() {
     setColor(selectedColor);
   };
   console.log(name);
+
   return (
-    <div style={{ display: "flex" }}>
-      <Sidebar
-        groupValues={groupValues}
-        CreateGroup={CreateGroup}
-        setSelectedGroup={setSelectedGroup}
-        selectedGroup={selectedGroup}
-      />
-      <Notes selectedGroup={selectedGroup} />
-      {popup && (
-        <Popup
-          handleChange={handleChange}
-          createBtn={createBtn}
-          name={name}
-          color={color}
-          colors={colors}
-          setColor={handleColorChange}
+    <BrowserRouter>
+      <div style={{ display: "flex" }}>
+        <Sidebar
+          groupValues={groupValues}
+          CreateGroup={CreateGroup}
+          setSelectedGroup={setSelectedGroup}
+          selectedGroup={selectedGroup}
         />
-      )}
-    </div>
+
+        <Routes>
+          <Route path="/" element={<Banner />} />
+          <Route
+            path="/notes"
+            element={<Notes selectedGroup={selectedGroup} />}
+          />
+        </Routes>
+
+        {popup && (
+          <Popup
+            handleChange={handleChange}
+            createBtn={createBtn}
+            name={name}
+            color={color}
+            colors={colors}
+            setColor={handleColorChange}
+          />
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 

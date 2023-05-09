@@ -1,53 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Notes.css";
-import NoteImg from "./../assets/notepad.png";
+
 import Send from "./../assets/send.png";
 
 const Notes = ({ selectedGroup }) => {
   const [userNotes, setUserNotes] = useState([]);
   const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    const notes = localStorage.getItem(selectedGroup?.name);
+    setUserNotes(notes ? JSON.parse(notes) : []);
+  }, [selectedGroup]);
+
   const textChange = (e) => {
     setMessage(e.target.value);
   };
 
   const sendMessage = () => {
-    setUserNotes((prevNotes) => [...prevNotes, message]);
+    const newNote = {
+      timestamp: new Date().toLocaleString(),
+      message: message,
+    };
+
+    setUserNotes((prevNotes) => [...prevNotes, newNote]);
     setMessage("");
   };
 
+  useEffect(() => {
+    if (selectedGroup) {
+      localStorage.setItem(selectedGroup.name, JSON.stringify(userNotes));
+    }
+  }, [selectedGroup, userNotes]);
+
   return (
     <div className="notes-container">
-      {/* <img src={NoteImg} alt="notes-img" className="notes-img" />
-      <div className="pocket-notes">Pocket Notes</div>
-      <div className="app-features">
-        Send and receive messages without keeping your phone online. Use Pocket
-        Notes on up to 4 linked devices and 1 mobile phone
-      </div>
-      <div className="secure">&#128274; end-to-end encrypted</div> */}
       <div className="navbar">
         <div
           className="notes-icon2"
-          style={{ backgroundColor: selectedGroup.color }}
+          style={{
+            backgroundColor: !selectedGroup ? "none" : selectedGroup.color,
+          }}
         >
-          {selectedGroup.name
-            .split(" ")
-            .slice(0, 2)
-            .map((word) => word.charAt(0))
-            .join("")}
+          {!selectedGroup
+            ? ""
+            : selectedGroup.name
+                .split(" ")
+                .slice(0, 2)
+                .map((word) => word.charAt(0))
+                .join("")}
         </div>
-        <div className="notes-title2">{selectedGroup.name}</div>
+
+        <div className="notes-title2">
+          {!selectedGroup ? "" : selectedGroup.name}
+        </div>
       </div>
       <div className="notes-header">
         {userNotes.map((note, index) => (
           <div key={index} className="notes-box">
-            <div className="timestamp">
-              {" "}
-              10:30 Am <br />
-              <br />
-              <span>9 March 2023</span>
-            </div>
-            <div className="notes-item">{note}</div>
+            <div className="timestamp">{note.timestamp}</div>
+            <div className="notes-item">{note.message}</div>
           </div>
         ))}
       </div>
